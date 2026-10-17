@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Asset Intelligence Copilot
 
 Challenge repository for the FlytBase Hack Day (Hacktoberfest 2026).
@@ -29,3 +30,6 @@ All data is synthetic and created for this challenge. Manuals and procedures are
 ## License
 
 [MIT](LICENSE)
+=======
+# oil-field-intelligence-copilot
+>>>>>>> d7941d3d6d64c5a83ad825c9e2dce4dfd53b7c6c
