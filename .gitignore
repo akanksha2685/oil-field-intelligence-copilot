@@ -1,6 +1,18 @@
-# Organizer-only prototype, not part of the participant repo
+# Organizer-only prototype
 prototype/
 
 # OS files
 .DS_Store
 Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
