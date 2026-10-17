@@ -354,7 +354,7 @@ with tab1:
             query_lower,
         )
         if "downtime" in query_input.lower() or ("down" in query_input.lower() and "days" in query_input.lower()):
-         st.markdown(f"Calculating weekly inspection downtime records for **{well_id}**...")
+         st.markdown(f"Calculating weekly inspection downtime records for records...")
         
          conn = sqlite3.connect(DB_PATH)
          cursor = conn.cursor()
@@ -516,42 +516,42 @@ with tab1:
                                                     
                                                     downtime_records = []
                                                     total_down_days = 0
-                            else:
-                                show_well_status(
-                                    well_id,
-                                    well_type,
-                                    recorded_status,
-                                    inspection,
-                                )
+                           
                             
                         
-                        for ins in all_insp:
-                            ins_date = ins[0]
-                            ambient = ins[1]
-                            wellhead = ins[2]
-                            note = ins[3]
-                            
-                            if ambient is not None and wellhead is not None:
-                                delta = round(wellhead - ambient, 1)
-                                if delta < 15.0:
-                                    total_down_days += 7
-                                    downtime_records.append({
-                                        "Inspection Date": ins_date,
-                                        "Wellhead Temp (°C)": wellhead,
-                                        "Ambient Temp (°C)": ambient,
-                                        "Delta (°C)": f"{delta}°C",
-                                        "Inspector Note": note if note else "No note recorded"
-                                    })
+                                for ins in all_insp:
+                                    ins_date = ins[0]
+                                    ambient = ins[1]
+                                    wellhead = ins[2]
+                                    note = ins[3]
                                     
-                        st.metric("Total Calculated Downtime Inspections", f"{len(downtime_records)} inspections", f"{total_down_days} cumulative days (7 days per inspection)")
-                        
-                        if downtime_records:
-                            df_dt = pd.DataFrame(downtime_records)
-                            st.markdown("### 📋 Breakdown of Inspections Indicating Inactive State")
-                            st.dataframe(df_dt, use_container_width=True)
-                            st.markdown("**Rule Applied:** Each weekly inspection finding the well not producing oil counts as 7 days of downtime[cite: 12].")
-                        else:
-                            st.success(f"No downtime found for **{well_id}**.")                 
+                                    if ambient is not None and wellhead is not None:
+                                        delta = round(wellhead - ambient, 1)
+                                        if delta < 15.0:
+                                            total_down_days += 7
+                                            downtime_records.append({
+                                                "Inspection Date": ins_date,
+                                                "Wellhead Temp (°C)": wellhead,
+                                                "Ambient Temp (°C)": ambient,
+                                                "Delta (°C)": f"{delta}°C",
+                                                "Inspector Note": note if note else "No note recorded"
+                                            })
+                                else:
+                                                            show_well_status(
+                                                                well_id,
+                                                                well_type,
+                                                                recorded_status,
+                                                                inspection,
+                                                            )                
+                            st.metric("Total Calculated Downtime Inspections", f"{len(downtime_records)} inspections", f"{total_down_days} cumulative days (7 days per inspection)")
+                            
+                            if downtime_records:
+                                df_dt = pd.DataFrame(downtime_records)
+                                st.markdown("### 📋 Breakdown of Inspections Indicating Inactive State")
+                                st.dataframe(df_dt, use_container_width=True)
+                                st.markdown("**Rule Applied:** Each weekly inspection finding the well not producing oil counts as 7 days of downtime[cite: 12].")
+                            else:
+                                st.success(f"No downtime found for **{well_id}**.")                 
 
                     finally:
                         conn.close()
